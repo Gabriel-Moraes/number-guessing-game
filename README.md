@@ -1,4 +1,10 @@
 # number-guessing-game
 Number Guessing Game C++ Study
 
-This project implements the problem suggestion on this link: https://github.com/kamranahmedse/developer-roadmap/blob/master/src/data/projects/number-guessing-game.md
+To compile the code, you have to type on your terminal:
+- ```g++ main.cpp -o main```
+
+Then, to run the game, type:
+- ```./main```
+
+This project implements the problem suggestion on this link: https://roadmap.sh/projects/number-guessing-game
