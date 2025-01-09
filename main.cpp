@@ -75,20 +75,22 @@ void runGame(DifficultyEnum difficulty) {
 
     auto it = chancesByDifficulty.find(difficulty);
     std::cout << "A dificuldade do jogo eh: " << toString(difficulty) << std::endl;
-    int chances = it->second;
+    const int originalChances = it->second;
+    int chances = originalChances;
 
     while(chances > 0) {
         std::cout << "Palpite: ";
         int guess = readUserGuess();
+        chances--;
 
         if (guess == generatedNumber) {
             std::cout << WINNING_MESSAGE << std::endl;
+            std::cout << "Tentativas feitas: " << (originalChances - chances) << std::endl;
             return;
         }
 
         std::string keyword = guess < generatedNumber ? "maior" : "menor";
         std::cout << "O numero sorteado eh " << keyword << " que " << guess << std::endl;
-        chances--;        
     }
 
 
