@@ -4,10 +4,10 @@
 #include <time.h>
 
 const std::string GREETING_MESSAGE = "Seja bem vindo/a ao jogo de adivinhacao! Escolha sua dificuldade e veja se sera capaz de ler a mente da maquina...";
-const std::string DIFFICULTY_ASK_MESSAGE = "\nPrimeiro, selecione a dificuldade desejada. Cada nivel corresponde ao numero de chances que voce tem para adivinhar o numero.\nAs dificuldades sao:\n1. Facil - 10 chances\n2. Medio - 5 chances\n3. Dificil - 3 chances.\n4. Insano - 1 chance";
+const std::string DIFFICULTY_ASK_MESSAGE = "Primeiro, selecione a dificuldade desejada. Cada nivel corresponde ao numero de chances que voce tem para adivinhar o numero.\nAs dificuldades sao:\n\t1. Facil - 10 chances\n\t2. Medio - 5 chances\n\t3. Dificil - 3 chances.\n\t4. Insano - 1 chance";
 const std::string WINNING_MESSAGE = "Voce venceu o jogo! Parabens!";
 const std::string LOSING_MESSAGE = "\nInfelizmente suas chances acabaram :(\nO numero sorteado pelo maquina era: ";
-
+const std::string PLAY_AGAIN_MESSAGE = "Deseja jogar novamente? Y - Sim | N - Nao";
 
 enum DifficultyEnum {
     FACIL = 1,
@@ -29,6 +29,7 @@ std::string toString(DifficultyEnum difficulty) {
     }
 }
 
+// Mapa da quantidade de chances permitidas por dificuldade
 const std::unordered_map<DifficultyEnum, int> chancesByDifficulty = {{FACIL, 10}, {MEDIO, 5}, {DIFICIL, 3}, {INSANO, 1}};
 
 
@@ -97,11 +98,45 @@ void runGame(DifficultyEnum difficulty) {
     std::cout << LOSING_MESSAGE << generatedNumber << std::endl;
 }
 
+bool toBool(char c) {
+    if ('Y' == c || 'y' == c) {
+        return true;
+    }
+
+    // Considera qualquer char diferente de Y e y como falso
+    return false;
+}
+
+bool askPlayAgain() {
+    std::cout << PLAY_AGAIN_MESSAGE << std::endl;
+    char input;
+
+    do {
+        std::cin >> input;
+        if (std::cin.fail() || (input != 'Y' && input != 'y' && input != 'N' && input != 'n')) {
+            std::cout << "Valor invalido!" << std::endl;
+            continue;
+        }
+    }
+    while(input != 'Y' && input != 'y' && input != 'N' && input != 'n');
+
+
+    return toBool(input);
+}
+
 
 int main(int argc, char* argv[]) {
     showGreetingsMessage();
-    DifficultyEnum difficulty = showDifficultyAskMessage();
-    runGame(difficulty);
+    std::cout << std::endl;
+
+    while (true) {
+        DifficultyEnum difficulty = showDifficultyAskMessage();
+        runGame(difficulty);
+
+        if (!askPlayAgain()) {
+            break;
+        }
+    }
 
 
     exit(0);
